@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
+    // Brands listing
     public function index()
     {
         try {
@@ -44,6 +45,7 @@ class BrandController extends Controller
         }
     }
 
+    // edit brand
     public function edit($id=null)
     {
         if(!is_null($id)){
@@ -51,7 +53,17 @@ class BrandController extends Controller
             return response()->json(['success'=>true,'data'=>$brand]);
         }
     }
-    
+
+    // Store new brand
+    public function store(Request $request)
+    {
+            $brand=new Brand;
+            $brand->name=$request->addbrandname;
+            $brand->save();
+            return response()->json(['success'=>true,'message'=>"Brands added succesfully."]);
+    }
+
+    // update exsits brand
     public function update(Request $request)
     {
         if(!is_null($request->brandid)){
@@ -61,12 +73,13 @@ class BrandController extends Controller
             return response()->json(['success'=>true,'message'=>"Brands Updated succesfully."]);
         }
     }
-    
+
+    // delete brand
     public function destroy(Request $request)
     {
         Brand::where('id',$request->id)->delete();
         return response()->json(['success'=>true,'message'=>'Brands removed successfully']);
     }
 
-    
+
 }

@@ -12,10 +12,11 @@
                  <!--begin::Info-->
                  <div class="flex-grow-1 me-2">
                      <!--begin::Username-->
-                     <a href="Javascript:;" class="text-white text-hover-primary fs-6 fw-bold">{{ Auth::user()->name; }}</a>
+                     <a href="Javascript:;"
+                         class="text-white text-hover-primary fs-6 fw-bold">{{ Auth::user()->name }}</a>
                      <!--end::Username-->
                      <!--begin::Description-->
-                     <span class="text-gray-600 fw-bold d-block fs-8 mb-1">{{ Auth::user()->email; }}</span>
+                     <span class="text-gray-600 fw-bold d-block fs-8 mb-1">{{ Auth::user()->email }}</span>
                      <!--end::Description-->
                  </div>
                  <!--end::Info-->
@@ -43,34 +44,34 @@
          <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500"
              id="#kt_aside_menu" data-kt-menu="true">
              <div class="menu-item">
-                 <a class="menu-link {{getActiveClass(['home'])}}" href="{{ route('home') }}">
+                 <a class="menu-link {{ getActiveClass(['home']) }}" href="{{ route('home') }}">
                      <span class="menu-icon">
                          <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                          <span class="fas fa-home"></span>
                          <!--end::Svg Icon-->
                      </span>
-                     <span class="menu-title">Summery</span>
+                     <span class="menu-title">Summary</span>
                  </a>
              </div>
-             @if(auth::user()->is_admin == 1)
-            <div class="menu-item ">
-                <a class="menu-link {{getActiveClass(['users'])}}" href="{{ route('users.index') }}">
-                    <span class="menu-icon">
-                        <span class="fas fa-address-card"></span>
-                    </span>
-                    <span class="menu-title">Users</span>
-                </a>
-            </div>
-            @endif
+             @if (auth::user()->is_admin == 1)
+                 <div class="menu-item ">
+                     <a class="menu-link {{ getActiveClass(['users']) }}" href="{{ route('users.index') }}">
+                         <span class="menu-icon">
+                             <span class="fas fa-address-card"></span>
+                         </span>
+                         <span class="menu-title">Users</span>
+                     </a>
+                 </div>
+             @endif
 
-            <div class="menu-item {{getActiveClass(['logout'])}}">
-                <a class="menu-link" href="{{ route('logout') }}">
-                    <span class="menu-icon">
-                        <span class="far fa-question-circle"></span>
-                    </span>
-                    <span class="menu-title">Logout</span>
-                </a>
-            </div>
+             <div class="menu-item {{ getActiveClass(['logout']) }}">
+                 <a class="menu-link" href="{{ route('logout') }}">
+                     <span class="menu-icon">
+                         <span class="far fa-question-circle"></span>
+                     </span>
+                     <span class="menu-title">Logout</span>
+                 </a>
+             </div>
          </div>
          <!--end::Menu-->
      </div>

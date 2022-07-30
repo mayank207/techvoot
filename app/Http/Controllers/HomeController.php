@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Brand;
 
 class HomeController extends Controller
 {
@@ -24,25 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $brands = Brand::get();
         if(Auth::user()->is_admin == 1){
-        $data['page_title'] = "Admin Dashboard";
-        return view('dashboard')->with($data);
+            $data['page_title'] = "Admin Dashboard";
+            return view('dashboard',compact('brands'))->with($data);
+        }
+        else{
+            $data['page_title'] = "Users Dashbord";
+            return view('dashboard',compact('brands'))->with($data);
+        }
     }
-    else{
-        $data['page_title'] = "Users Dashbord";
-        return view('dashboard')->with($data);
-    }
-        // return view('dashboard',compact('total_product','total_brand'))->with($data);
-    }
-  
-    /**
-     * Show the admin dashboard.
-     */
-    public function adminHome()
-    {
-        return view('adminHome');
-    }
-    
+
     public function logout() {
         Auth::logout();
         return redirect('/login');

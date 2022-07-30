@@ -29,6 +29,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // products routes
 Route::get('products',[App\Http\Controllers\ProductController::class,'index'])->name('products.index');
 Route::get('brands',[App\Http\Controllers\BrandController::class,'index'])->name('brands.index');
+Route::post('product/update', [App\Http\Controllers\ProductController::class,'update'])->name('products.update');
+Route::post('products/store', [App\Http\Controllers\ProductController::class,'store'])->name('products.store');
 Route::get('product/edit/{id?}', [App\Http\Controllers\ProductController::class,'edit'])->name('products.edit');
 Route::post('product/delete', [App\Http\Controllers\ProductController::class,'destroy'])->name('products.delete');
 
@@ -37,7 +39,7 @@ Route::group(['middleware' => ['is_admin']], function () {
 // brand routes
 Route::get('brand/edit/{id?}', [App\Http\Controllers\BrandController::class,'edit'])->name('brands.edit');
 Route::post('brand/delete', [App\Http\Controllers\BrandController::class,'destroy'])->name('brands.delete');
-Route::post('product/update', [App\Http\Controllers\ProductController::class,'update'])->name('products.update');
+Route::post('brands/store', [App\Http\Controllers\BrandController::class,'store'])->name('brands.store');
 Route::post('brand/update', [App\Http\Controllers\BrandController::class,'update'])->name('brands.update');
 
 // users routes
@@ -50,3 +52,4 @@ Route::post('users/update', [App\Http\Controllers\UserController::class,'update'
 Route::get('users/delete/{id?}', [App\Http\Controllers\UserController::class,'destroy'])->name('users.delete');
 
 });
+// End admins routes
