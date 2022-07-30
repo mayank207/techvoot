@@ -1,0 +1,91 @@
+#logo{
+    margin-right: 10px;
+    width: 200px !important;
+    height: 100px !important;
+}
+.tags-look .tagify__dropdown__item{
+    display: inline-block;
+    border-radius: 3px;
+    padding: .3em .5em;
+    border: 1px solid #CCC;
+    background: #F3F3F3;
+    margin: .2em;
+    font-size: .85em;
+    color: black;
+    transition: 0s;
+  }
+
+  .tags-look .tagify__dropdown__item--active{
+    color: black;
+  }
+
+  .tags-look .tagify__dropdown__item:hover{
+    background: lightyellow;
+    border-color: gold;
+  }
+
+label.error{
+    color:red;
+}
+ #close_reason_modal{
+     cursor: pointer;
+ }
+
+ .form-check.form-check-solid .form-check-input {
+    background-color: lightgray;
+}
+
+.avatar-delete{
+
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    padding: 5px;
+    color: #dc3545;
+    cursor: pointer;
+    background-color: #ffa5a5d1;
+    border-radius: 100px !important;
+}
+.avatar-delete .fa-trash{
+    cursor: pointer;
+    font-size: 13px;
+}
+.error{
+    color:red;
+}
+#show-map{
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+.table td, .table th {
+    padding: .30rem;
+}
+.mw-200{
+    max-width: 200px;
+}
+.mw-100{
+    max-width: 100px;
+}
+.mw-150{
+    max-width: 100px;
+}
+.mw-50{
+    max-width: 100px;
+}
+.form-control {
+    height: 40px !important;
+    background-color: #dadcdd85 !important;
+}
+.form-control .form-control-solid .valid{
+    background-color: #dadcdd85;
+}
+.form-select.form-select-solid {
+    background-color: #dadcdd85;
+}
+.description-hight{
+    height: 100%!important;
+}
+.custom-hight-404{
+    height: 240px !important;
+}

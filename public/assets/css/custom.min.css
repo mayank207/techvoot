@@ -1,0 +1,12 @@
+#kt_modal_add_user_scroll .image-input .image-input-wrapper{
+    height: 168px;
+    width: 344px;
+}
+
+
+.btn-group-xs>.btn, .btn-xs {
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
