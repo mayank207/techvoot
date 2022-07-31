@@ -34,6 +34,11 @@ Route::post('products/store', [App\Http\Controllers\ProductController::class,'st
 Route::get('product/edit/{id?}', [App\Http\Controllers\ProductController::class,'edit'])->name('products.edit');
 Route::post('product/delete', [App\Http\Controllers\ProductController::class,'destroy'])->name('products.delete');
 
+//product media routes
+Route::get('product/media',[App\Http\Controllers\ProductController::class,'productMedia'])->name('product.media');
+Route::get('product/media/delete',[App\Http\Controllers\ProductController::class,'productMediaDelete'])->name('products.delete_media');
+Route::post('product/upload-media', [App\Http\Controllers\ProductController::class,'uploadProductMedia'])->name('product.upload_media');
+
 //Admin Route's
 Route::group(['middleware' => ['is_admin']], function () {
 // brand routes

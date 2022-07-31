@@ -64,14 +64,14 @@
                  </div>
              @endif
 
-             <div class="menu-item {{ getActiveClass(['logout']) }}">
-                 <a class="menu-link" href="{{ route('logout') }}">
-                     <span class="menu-icon">
-                         <span class="far fa-question-circle"></span>
-                     </span>
-                     <span class="menu-title">Logout</span>
-                 </a>
-             </div>
+             <div class="menu-item {{getActiveClass(['logout'])}}">
+                <a class="menu-link" href="{{ route('logout') }}">
+                    <span class="menu-icon">
+                        <span class="far fa-question-circle"></span>
+                    </span>
+                    <span class="menu-title">Logout</span>
+                </a>
+            </div>
          </div>
          <!--end::Menu-->
      </div>

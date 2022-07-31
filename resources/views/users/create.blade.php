@@ -68,6 +68,15 @@
                                     </div>
                                     <!--end-confirm PAssword -->
 
+                                    <div class="file-field input-field">
+
+                                        <div class='file-loading'><input id='add_image' name='add_image'
+                                                type='file' class='file'></div>
+                                        <strong><span class='text-danger' id='error_add_image'> </span></strong>
+
+
+                                    </div>
+
                                     <div class="fv-row mb-15">
                                         <!--begin::Button-->
                                         <a href="{{route('users.index')}}" class="btn btn-light me-3">Cancel</a>
@@ -155,6 +164,14 @@
         success: function(label,element) {
             label.parent().removeClass('has-danger');
         },
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $("#add_image").fileinput({
+            showCaption: false,
+            dropZoneEnabled: false
+        });
     });
 </script>
 @endsection

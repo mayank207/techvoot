@@ -23,6 +23,7 @@
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/backend_style.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/fileinput.css') }}" rel="stylesheet" />
     <!--end::Global Stylesheets Bundle-->
 </head>
 
@@ -98,11 +99,17 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
     {{-- <script src="{{ asset('assets/js/additional-methods.min.js') }}"></script> --}}
+    <script src="{{ asset('assets/js/fileinput.js') }}" type="text/javascript"></script>
 
 
     <!--start::External Javascript-->
     @yield('external-scripts')
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         /* custom validation */
         $.validator.addMethod('checkemail', function(value) {
             return /^([\w-\.]+@([\w-]+\.)+[a-z]{2,10})?$/.test(value);
