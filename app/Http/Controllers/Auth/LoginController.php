@@ -62,4 +62,8 @@ class LoginController extends Controller
         }
 
     }
+    public function logout()
+    {
+        dd('tested here');
+    }
 }

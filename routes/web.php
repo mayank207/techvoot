@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/logout', 'HomeController@logout')->name('logout');
+Route::get('/user-logout', 'HomeController@logout')->name('user.logout');
 
 Auth::routes();
 

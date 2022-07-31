@@ -65,7 +65,7 @@
              @endif
 
              <div class="menu-item {{getActiveClass(['logout'])}}">
-                <a class="menu-link" href="{{ route('logout') }}">
+                <a class="menu-link" href="{{ route('user.logout') }}">
                     <span class="menu-icon">
                         <span class="far fa-question-circle"></span>
                     </span>
