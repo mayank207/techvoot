@@ -85,6 +85,8 @@
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/form_validation.js?v=' . time()) }}"></script>
     <script src="{{ asset('assets/js/backend_jquery.js?v=' . time()) }}"></script>
+    <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('assets/js/additional-methods.min.js') }}"></script>
     <!--end::Javascript-->
 
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
@@ -102,15 +104,23 @@
     @yield('external-scripts')
     <script>
         /* custom validation */
-        // $.validator.addMethod('checkemail', function(value) {
-        //     return /^([\w-\.]+@([\w-]+\.)+[a-z]{2,10})?$/.test(value);
-        // }, 'Please enter a valid email');
+        $.validator.addMethod('checkemail', function(value) {
+            return /^([\w-\.]+@([\w-]+\.)+[a-z]{2,10})?$/.test(value);
+        }, 'Please enter a valid email');
 
-        // $.validator.addMethod("pwcheck", function(value) {
-        //         return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(value);
-        //     },
-        //     "The password should contain Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Special Character, 1 Numeric Value."
-        //     );
+        $.validator.addMethod("noSpace", function(value, element) {
+            if($.trim(value) == 0) {
+                return false;
+            }
+            return true;
+        }, "Space are not allowed");
+
+        $.validator.addMethod("pwcheck", function(value) {
+                return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(value);
+            },
+            "The password should contain Minimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet, 1 Special Character, 1 Numeric Value."
+            );
+
 
         setTimeout(() => {
             $('.notice').remove();

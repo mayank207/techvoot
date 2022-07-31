@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BrandController extends Controller
 {
@@ -41,7 +42,7 @@ class BrandController extends Controller
                 return $all_brands;
             }
         } catch (\Exception $exception) {
-            return redirect()->route('login')->withError('Something went wrong, please try again');
+            return redirect()->route('login')->with('toast-error','Something went wrong, please try again');
         }
     }
 
@@ -57,6 +58,15 @@ class BrandController extends Controller
     // Store new brand
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'addbrandname' => 'required',
+        ],
+        [
+            'addbrandname.required' => 'Please enter product name',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
             $brand=new Brand;
             $brand->name=$request->addbrandname;
             $brand->save();
@@ -66,6 +76,15 @@ class BrandController extends Controller
     // update exsits brand
     public function update(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'editbrandname' => 'required',
+        ],
+        [
+            'editbrandname.required' => 'Please enter product name',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
         if(!is_null($request->brandid)){
             $brand=Brand::where('id',$request->brandid)->firstOrFail();
             $brand->name=$request->editbrandname;

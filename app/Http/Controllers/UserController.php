@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -60,15 +61,30 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+            'confirm_password'=> 'required',
+        ],
+        [
+            'name.required' => 'Please enter name',
+            'email.required' => 'Please enter email',
+            'password.required' => 'Please enter password',
+            'confirm_password.required' => 'Please enter confirm password',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
         $user=new User;
         $user->name=$request->name;
         $user->email=$request->email;
         $user->is_admin=0;
         $user->password=bcrypt($request->password);
         $user->save();
-        return redirect()->route('users.index')->withSuccess("User added successfully");
+        return redirect()->route('users.index')->with('toast-success','User added successfully');
     }
-    
+
     public function edit($id=null)
     {
         $page_title="Edit Users";
@@ -81,19 +97,53 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'emai' => 'required',
+        ],
+        [
+            'name.required' => 'Please enter name',
+            'emai.required' => 'Please enter email',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
         $user=User::where('is_admin',0)->where('id',$request->user_id)->first();
         $user->name=$request->name;
         $user->email=$request->email;
         if($user->save()){
-            return redirect()->route('users.index')->withSuccess("User updated successfully");
+            return redirect()->route('users.index')->with('toast-success','User updated successfully');
         }
+        return redirect()->route('users.index')->with('toast-error','Something went wrong');
     }
-    
+
+    public function isEmailExists(Request $request){
+        $isValid = true;
+        $message = '';
+
+        $email = $request->email;
+        if($request->has('email')){
+            $email =$request->email;
+        }
+        if(!empty($request->id) && $request->id != 0)
+        {
+            $isExist = User::select('id')->where('id','!=',$request->id)->where('email',$email)->count();
+        }
+        else{
+            $isExist = User::select('id')->where('email',$email)->count();
+        }
+        if($isExist != 0){
+                $isValid = false;
+                $message = 'Email is already exists';
+            }
+        return response()->json(['valid' => $isValid,'message' => $message]);
+    }
+
     public function destroy($id=null)
     {
         if(!is_null($id)){
             $users=User::where('is_admin',0)->where('id',$id)->delete();
         }
-        return redirect()->route('users.index')->withSuccess("User deleted successfully");
+        return redirect()->route('users.index')->with('toast-success','User deleted successfully.');
     }
 }

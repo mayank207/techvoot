@@ -54,11 +54,11 @@ class LoginController extends Controller
         if(auth()->attempt(array('email' => $input['email'], 'password' => $input['password'])))
         {
             if (Auth::check()) {
-                return redirect()->route('home');
+                return redirect()->route('home')->with('toast-sucess','User login suceessfully');
             }
         }else{
             return redirect()->route('login')
-                ->with('error','Email-Address And Password Are Wrong.');
+                ->with('toast-error','please enter valid Email & Password.');
         }
 
     }

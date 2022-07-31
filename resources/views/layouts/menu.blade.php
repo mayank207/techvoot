@@ -55,7 +55,7 @@
              </div>
              @if (auth::user()->is_admin == 1)
                  <div class="menu-item ">
-                     <a class="menu-link {{ getActiveClass(['users']) }}" href="{{ route('users.index') }}">
+                     <a class="menu-link {{ getActiveClass(['users.index','users.create','users.edit']) }}" href="{{ route('users.index') }}">
                          <span class="menu-icon">
                              <span class="fas fa-address-card"></span>
                          </span>

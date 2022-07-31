@@ -17,9 +17,9 @@
                                 <h3 class="card-title align-items-start flex-column mb-5">
                                     <span class="fw-bolder text-dark">Add User</span>
                                 </h3>
-                                <form class="form" action="{{route('users.store')}}" id="edit_users_form" method="post" enctype="multipart/form-data">
+                                <form class="form" action="{{route('users.store')}}" id="add_users_form" method="post">
                                     @csrf
-                                     <!--first Name -->
+                                     <!-- Name -->
                                     <div class="fv-row mb-4">
                                         <label class="required fs-6 fw-bold mb-2">Name</label>
                                         <input type="text" class="form-control form-control-solid" id="name" placeholder="" value="{{old('name')}}" name="name"/>
@@ -28,7 +28,7 @@
                                             <strong>{{ $errors->first('name') }}</strong></div>
                                         @endif
                                     </div>
-                                    <!-- end-first Name -->
+                                    <!-- end- Name -->
                                     <!-- Email -->
                                     <div class="fv-row mb-4">
                                         <label class="required fs-6 fw-bold mb-2">
@@ -42,7 +42,7 @@
                                     </div>
                                     <!--end-Email -->
 
-                                    <!-- Email -->
+                                    <!-- PAssword -->
                                     <div class="fv-row mb-4">
                                         <label class="required fs-6 fw-bold mb-2">
                                             <span >Password</span>
@@ -53,7 +53,20 @@
                                             <strong>{{ $errors->first('password') }}</strong></div>
                                         @endif
                                     </div>
-                                    <!--end-Email -->
+                                    <!--end-PAssword -->
+
+                                    <!-- confirm PAssword -->
+                                    <div class="fv-row mb-4">
+                                        <label class="required fs-6 fw-bold mb-2">
+                                            <span >Confirm Password</span>
+                                        </label>
+                                        <input type="password" id="confirm_password" class="form-control form-control-solid" value="{{old('confirm_password')}}" placeholder="" name="confirm_password" />
+                                        @if ($errors->has('confirm_password'))
+                                        <div class="error">
+                                            <strong>{{ $errors->first('confirm_password') }}</strong></div>
+                                        @endif
+                                    </div>
+                                    <!--end-confirm PAssword -->
 
                                     <div class="fv-row mb-15">
                                         <!--begin::Button-->
@@ -61,7 +74,6 @@
                                         <!--end::Button-->
                                         <!--begin::Button-->
                                         <input type="submit" id="edit_users_form_submit" data-kt-banner-action="submit" class="btn btn-primary">
-
                                             <span class="indicator-progress">Please wait...
                                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
 
@@ -81,4 +93,68 @@
         <!--end::sub category Row-->
     </div>
 </div>
+@endsection
+@section('external-scripts')
+<script>
+    var id=0;
+        $("#add_users_form").validate({
+        rules: {
+            name: {
+                required:true ,
+                noSpace:true,
+            },
+            email: {
+                checkemail:true,
+				required: true,
+				remote: {
+                        type: 'post',
+                        url: "{{route('user.email_exists')}}",
+                        data: {'_token': $("input[name=_token]").val(),id:id},
+                        dataFilter: function (data)
+                        {
+                            var json = JSON.parse(data);
+                            if (json.valid === true) {
+                                return '"true"';
+                            } else {
+                                return "\"" + json.message + "\"";
+                            }
+                        }
+                    }
+
+				},
+            password:{
+                required:true ,
+                noSpace:true,
+                pwcheck:true,
+            },
+            confirm_password:{
+                required:true ,
+                equalTo: "#password",
+                noSpace:true,
+            }
+        },
+        messages: {
+            name: 'Please enter name',
+            email:{
+                required:"Please enter email",
+                remote:"Email is already exists",
+                checkemail:"Please enter valid email",
+            },
+            password:{
+                required:"Please enter password",
+            },
+            confirm_password:{
+                required:"Please enter confirm password",
+                equalTo:"password & confirm password are not match"
+            }
+        },
+        submitHandler: function (form) {
+
+            return true;
+        },
+        success: function(label,element) {
+            label.parent().removeClass('has-danger');
+        },
+    });
+</script>
 @endsection

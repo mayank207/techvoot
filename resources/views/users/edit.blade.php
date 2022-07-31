@@ -71,3 +71,50 @@
     </div>
 </div>
 @endsection
+@section('external-scripts')
+<script>
+    var id='{{ $users->id }}';
+        $("#edit_users_form").validate({
+        rules: {
+            name: {
+                required:true ,
+                noSpace:true,
+            },
+            email: {
+                checkemail:true,
+				required: true,
+				remote: {
+                        type: 'post',
+                        url: "{{route('user.email_exists')}}",
+                        data: {'_token': $("input[name=_token]").val(),id:id},
+                        dataFilter: function (data)
+                        {
+                            var json = JSON.parse(data);
+                            if (json.valid === true) {
+                                return '"true"';
+                            } else {
+                                return "\"" + json.message + "\"";
+                            }
+                        }
+                    }
+
+				},
+        },
+        messages: {
+            name: 'Please enter name',
+            email:{
+                required:"Please enter email",
+                remote:"Email is already exists",
+                checkemail:"Please enter valid email",
+            },
+        },
+        submitHandler: function (form) {
+
+            return true;
+        },
+        success: function(label,element) {
+            label.parent().removeClass('has-danger');
+        },
+    });
+</script>
+@endsection

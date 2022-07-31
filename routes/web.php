@@ -44,6 +44,7 @@ Route::post('brand/update', [App\Http\Controllers\BrandController::class,'update
 
 // users routes
 Route::get('users', [App\Http\Controllers\UserController::class,'index'])->name('users.index');
+Route::post('users/email_exists',[App\Http\Controllers\UserController::class,'isEmailExists'])->name('user.email_exists');
 Route::get('userslists', [App\Http\Controllers\UserController::class,'lists'])->name('users.lists');
 Route::get('users/create', [App\Http\Controllers\UserController::class,'create'])->name('users.create');
 Route::post('users/store', [App\Http\Controllers\UserController::class,'store'])->name('users.store');

@@ -70,6 +70,11 @@
                                     <input type="hidden" name="brandid" id="brandid" value="">
                                     <input type="text" class="form-control" name="editbrandname" id="editbrandname"
                                         placeholder="Enter Name">
+                                        @if($errors->has('editbrandname'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('editbrandname')}}</strong>
+                                            </div>
+                                        @endif
                                         <br>
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </form>
@@ -94,6 +99,11 @@
                                 <form action="" id="addbrandform" method="POST">
                                     <input type="text" class="form-control" name="addbrandname" id="addbrandname"
                                         placeholder="Enter Name">
+                                        @if($errors->has('addbrandname'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('addbrandname')}}</strong>
+                                            </div>
+                                        @endif
                                         <br>
                                     <button type="submit" class="btn btn-primary">Save</button>
                                 </form>
@@ -120,10 +130,20 @@
                                     <p class="mt-2">Name: </p>
                                     <input type="text" class="form-control" name="addproductname" id="addproductname"
                                         placeholder="Enter Name">
+                                        @if($errors->has('addproductname'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('addproductname')}}</strong>
+                                            </div>
+                                        @endif
 
                                     <p class="mt-2">price: </p>
                                     <input type="text" class="form-control mt-0" name="addproductprice"
                                         id="addproductprice" placeholder="Enter Price">
+                                        @if($errors->has('addproductprice'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('addproductprice')}}</strong>
+                                            </div>
+                                        @endif
 
                                     <p class="mt-2">Brand: </p>
                                     <select class="form-control" name="add_brand" id="add_brand">
@@ -131,6 +151,11 @@
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
+                                    @if($errors->has('add_brand'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('add_brand')}}</strong>
+                                            </div>
+                                        @endif
                                     <br>
                                     {{-- <p class="mt-2">Image: </p>
                                     <input type="file" class="form-control" id="add_image" name="add_image[]" multiple> --}}
@@ -162,10 +187,20 @@
                                     <p class="mt-2">Name: </p>
                                     <input type="text" class="form-control" name="editproductname"
                                         id="editproductname" placeholder="Enter Name">
+                                        @if($errors->has('editproductname'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('editproductname')}}</strong>
+                                            </div>
+                                        @endif
 
                                     <p class="mt-2">Price: </p>
                                     <input type="text" class="form-control" name="editproductprice"
                                         id="editproductprice" placeholder="Enter Price">
+                                        @if($errors->has('editproductprice'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('editproductprice')}}</strong>
+                                            </div>
+                                        @endif
 
                                     <p class="mt-2">Brand: </p>
                                     <select name="edit_brand" class="form-control" id="edit_brand">
@@ -173,6 +208,11 @@
                                             <option value="{{ $item->id }}">{{ $item->name }}</option>
                                         @endforeach
                                     </select>
+                                    @if($errors->has('edit_brand'))
+                                            <div class="error">
+                                                <strong>{{$errors->first('edit_brand')}}</strong>
+                                            </div>
+                                        @endif
                                     <br>
                                     {{-- <label class="mt-2">Image: </label>
                                     <input type="file" id="image" name="image[]" multiple> --}}

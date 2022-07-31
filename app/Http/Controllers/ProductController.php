@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -44,7 +45,7 @@ class ProductController extends Controller
                 return $all_products;
             }
         } catch (\Exception $exception) {
-            return redirect()->route('login')->withError('Something went wrong, please try again');
+            return redirect()->route('login')->with('toast-error','Something went wrong, please try again');
         }
     }
 
@@ -60,6 +61,17 @@ class ProductController extends Controller
     //store product
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'addproductname' => 'required',
+            'addproductprice' => 'required',
+            'add_brand' => 'required',
+        ],
+        [
+            'addproductname.required' => 'Please enter product name',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
             $product=new Product;
             $product->name=$request->addproductname;
             $product->price=$request->addproductprice;
@@ -81,6 +93,19 @@ class ProductController extends Controller
     //update product details
     public function update(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'editproductname' => 'required',
+            'editproductprice' => 'required',
+            'edit_brand' => 'required',
+        ],
+        [
+            'editproductname.required' => 'Please enter product name',
+            'editproductprice' => 'Please enter product price',
+            'edit_brand' => 'Please choose product brand',
+        ]);
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator);
+        }
         if(!is_null($request->productid)){
             $product=Product::where('id',$request->productid)->firstOrFail();
             $product->name=$request->editproductname;
