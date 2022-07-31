@@ -103,6 +103,11 @@
     <!--start::External Javascript-->
     @yield('external-scripts')
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         /* custom validation */
         $.validator.addMethod('checkemail', function(value) {
             return /^([\w-\.]+@([\w-]+\.)+[a-z]{2,10})?$/.test(value);

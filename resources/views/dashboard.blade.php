@@ -1,6 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -157,8 +158,9 @@
                                             </div>
                                         @endif
                                     <br>
-                                    {{-- <p class="mt-2">Image: </p>
-                                    <input type="file" class="form-control" id="add_image" name="add_image[]" multiple> --}}
+
+                                    @include('components.product_media')
+
                                     <br><br>
 
                                     <button type="submit" class="btn btn-primary mt-2">Save</button>
@@ -376,8 +378,12 @@
                 displayBrand();
             });
 
-            // open the edit product modal
-            $(document).on('click', '#editproduct', function(e) {
+                // open the edit product modal
+                $(document).on('click', '#editproduct', function(e) {
+                /*start deop zone*/
+
+                /*end drop zone*/
+                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                 e.preventDefault();
                 $('#editproductModal').modal('show');
                 var id = $(this).attr('data-id');
@@ -641,6 +647,46 @@
                 $('#editbrandModal').modal('hide');
             });
             //end close models
+
+
+            // delete media of product
+         $(document).on('click','.image_trash',function(){
+
+            var id =$(this).attr('data-value');
+            bootbox.confirm({
+                title: "Delete Media ",
+                message: "Are you sure to delete this media file ?",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> Cancel'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Confirm'
+                    }
+                },
+                callback: function (result) {
+                        if(result){
+                            $('.pic_'+id+'_delete').remove();
+                            $.ajax({
+                                url: "{{route('products.delete_media')}}",
+                                type: "POST",
+                                data: {
+                                    id: id,
+                                    _token: '{{csrf_token()}}'
+                                },
+                                dataType: 'json',
+                                success: function (data) {
+                                    toastr.success('Media deleted successfully');
+                                }
+                            });
+                        }
+                        else{
+
+                        }
+                    }
+                });
+            });
         });
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 @endsection
