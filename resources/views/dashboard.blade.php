@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -117,7 +116,7 @@
                 <!--Add product Modal -->
                 <div class="modal fade" id="addproductModal" tabindex="-1" role="dialog"
                     aria-labelledby="productModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="productModalLabel">Add Product</h5>
@@ -126,7 +125,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="" id="addproductform" method="POST" enc type="multipart/form-data">
+                                <form action="" id="addproductform" method="POST" enctype="multipart/form-data">
 
                                     <p class="mt-2">Name: </p>
                                     <input type="text" class="form-control" name="addproductname" id="addproductname"
@@ -158,11 +157,12 @@
                                             </div>
                                         @endif
                                     <br>
-
-                                    @include('components.product_media')
-
+                                    <div class="file-field input-field">
+                                        <div class='file-loading'><input id='add_product_image' name='add_product_image[]'
+                                                type='file' class='file' multiple></div>
+                                        <strong><span class='text-danger' id='error_add_product_image'> </span></strong>
+                                    </div>
                                     <br><br>
-
                                     <button type="submit" class="btn btn-primary mt-2">Save</button>
                                 </form>
                             </div>
@@ -174,7 +174,7 @@
                 <!--edit product Modal -->
                 <div class="modal fade" id="editproductModal" tabindex="-1" role="dialog"
                     aria-labelledby="brandModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
+                    <div class="modal-dialog modal-xl" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="brandModalLabel">Edit Product</h5>
@@ -185,40 +185,54 @@
                             <div class="modal-body">
                                 <form action="" id="editproductform" method="POST" enc type="multipart/form-data">
                                     <input type="hidden" name="productid" id="productid" value="">
-
-                                    <p class="mt-2">Name: </p>
-                                    <input type="text" class="form-control" name="editproductname"
-                                        id="editproductname" placeholder="Enter Name">
-                                        @if($errors->has('editproductname'))
-                                            <div class="error">
-                                                <strong>{{$errors->first('editproductname')}}</strong>
+                                    @csrf
+                                    <div class="col-12 row">
+                                        <div class="col-6">
+                                            <p class="mt-2">Name: </p>
+                                            <input type="text" class="form-control" name="editproductname"
+                                                id="editproductname" placeholder="Enter Name">
+                                                @if($errors->has('editproductname'))
+                                                    <div class="error">
+                                                        <strong>{{$errors->first('editproductname')}}</strong>
+                                                    </div>
+                                                @endif
+                                        </div>
+                                        <div class="col-6">
+                                            <p class="mt-2">Price: </p>
+                                            <input type="text" class="form-control" name="editproductprice"
+                                                id="editproductprice" placeholder="Enter Price">
+                                                @if($errors->has('editproductprice'))
+                                                    <div class="error">
+                                                        <strong>{{$errors->first('editproductprice')}}</strong>
+                                                    </div>
+                                                @endif
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p class="mt-2">Brand: </p>
+                                                <select name="edit_brand" class="form-control" id="edit_brand">
+                                                    @foreach ($brands as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @if($errors->has('edit_brand'))
+                                                        <div class="error">
+                                                            <strong>{{$errors->first('edit_brand')}}</strong>
+                                                        </div>
+                                                    @endif
                                             </div>
-                                        @endif
-
-                                    <p class="mt-2">Price: </p>
-                                    <input type="text" class="form-control" name="editproductprice"
-                                        id="editproductprice" placeholder="Enter Price">
-                                        @if($errors->has('editproductprice'))
-                                            <div class="error">
-                                                <strong>{{$errors->first('editproductprice')}}</strong>
+                                            <div class="col-6">
+                                                <div class="file-field input-field">
+                                                    <div class='file-loading'><input id='edit_product_image' name='edit_product_image[]'
+                                                            type='file' class='file' multiple></div>
+                                                    <strong><span class='text-danger' id='error_edit_product_image'> </span></strong>
+                                                </div>
                                             </div>
-                                        @endif
+                                        </div>
+                                        <div class="row">
 
-                                    <p class="mt-2">Brand: </p>
-                                    <select name="edit_brand" class="form-control" id="edit_brand">
-                                        @foreach ($brands as $item)
-                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if($errors->has('edit_brand'))
-                                            <div class="error">
-                                                <strong>{{$errors->first('edit_brand')}}</strong>
-                                            </div>
-                                        @endif
-                                    <br>
-                                    {{-- <label class="mt-2">Image: </label>
-                                    <input type="file" id="image" name="image[]" multiple> --}}
-                                    <br><br>
+                                        </div>
 
                                     <button type="submit" class="btn btn-primary mt-2">Save</button>
                                 </form>
@@ -379,11 +393,8 @@
             });
 
                 // open the edit product modal
-                $(document).on('click', '#editproduct', function(e) {
-                /*start deop zone*/
-
-                /*end drop zone*/
-                var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $(document).on('click', '#editproduct', function(e) {
+                $('#edit_product_image').val('');
                 e.preventDefault();
                 $('#editproductModal').modal('show');
                 var id = $(this).attr('data-id');
@@ -397,6 +408,22 @@
                             $('#editproductprice').val(data.data.price);
                             $('#edit_brand option[value=' + data.data.brand_id + ']').attr(
                                 'selected', true);
+                            $('#images').val(data.img);
+
+                            $("#edit_product_image").fileinput({
+                                initialPreview : data.img.image_name,
+                                initialPreviewAsData: true,
+                                showUpload: false,
+                                showRemove: false,
+                                showPreview: true,
+                                initialPreviewShowDelete: false,
+                                showDrag: false,
+                                showUploadStats: true,
+                                removeFromPreviewOnError: true,
+                                overwriteInitial: true,
+                                allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                                allowedPreviewTypes: ['image'],
+                            });
                         }
                     }
                 });
@@ -455,17 +482,21 @@
                 submitHandler: function(form, e) {
                     // Update submit product form ajax
                     e.preventDefault();
-                    // var formData = new FormData(form);
-                    // let TotalFiles = $('#image')[0].files.length; //Total files
-                    // let files = $('#image')[0];
-                    // for (let i = 0; i < TotalFiles; i++) {
-                    //     formData.append('image' + i, files.files[i]);
-                    // }
-                    // console.log(formData);
+                    var formData = new FormData(form);
+                    let TotalImages = $('#edit_product_image')[0].files.length; //Total Images
+                    let images = $('#edit_product_image')[0];
+                    for (let i = 0; i < TotalImages; i++) {
+                        formData.append('image' + i, images.files[i]);
+                    }
+                    formData.append('TotalImages', TotalImages);
                     $.ajax({
                         url: updateproduct_controller_url,
                         method: 'post',
-                        data: $('#editproductform').serialize(),
+                        data: formData,
+                        cache:false,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
                         success: function(data) {
                             if (data.success) {
                                 $('#dataTableProducts').DataTable().draw();
@@ -491,9 +522,6 @@
                     add_brand: {
                         required: true,
                     },
-                    // 'add_images[]': {
-                    //     required: true,
-                    // }
                 },
                 messages: {
                     addproductname: {
@@ -506,28 +534,30 @@
                     add_brand: {
                         required: "Please choose any brand",
                     },
-                    // 'image[]': {
-                    //     required: "Please upload the image(s)",
-                    // }
                 },
 
                 submitHandler: function(form, e) {
                     // add submit product form
                     e.preventDefault();
-                    // var formData = new FormData(form);
-                    // let TotalImages = $('#image')[0].files.length; //Total Images
-                    // let images = $('#image')[0];
-                    // for (let i = 0; i < TotalImages; i++) {
-                    //     formData.append('image' + i, images.files[i]);
-                    // }
-                    // formData.append('TotalImages', TotalImages);
-                    // console.log(formData);
+                    var formData = new FormData(form);
+                    let TotalImages = $('#add_product_image')[0].files.length; //Total Images
+                    let images = $('#add_product_image')[0];
+                    for (let i = 0; i < TotalImages; i++) {
+                        formData.append('image' + i, images.files[i]);
+                    }
+                    formData.append('TotalImages', TotalImages);
+                    console.log(formData);
                     $.ajax({
                         url: addproduct_controller_url,
                         method: 'post',
-                        data: $('#addproductform').serialize(),
+                        data : formData,
+                        cache:false,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
                         success: function(data) {
                             if (data.success) {
+                                this.reset();
                                 $('#dataTableProducts').DataTable().draw();
                                 $(".close").trigger("click");
                                 toastr.success(data.message);
@@ -648,45 +678,63 @@
             });
             //end close models
 
+            //customise input file plugin
+            $(document).ready(function() {
+                    $("#add_product_image").fileinput({
+                        initialPreviewAsData: true,
+                        showUpload: false,
+                        showPreview: true,
+                        showUploadStats: true,
+                        showRemove: false,
+                        removeFromPreviewOnError: true,
+                        overwriteInitial: true,
+                        initialPreviewShowDelete: false,
+                        showDrag: false,
+                        allowedFileExtensions: ['jpg', 'jpeg', 'png'],
+                        allowedPreviewTypes: ['image'],
+                    });
+
+                });
 
             // delete media of product
-         $(document).on('click','.image_trash',function(){
+            $(document).on('click','.image_trash',function(){
 
-            var id =$(this).attr('data-value');
-            bootbox.confirm({
-                title: "Delete Media ",
-                message: "Are you sure to delete this media file ?",
-                buttons: {
-                    cancel: {
-                        label: '<i class="fa fa-times"></i> Cancel'
+                var id =$(this).attr('data-value');
+                bootbox.confirm({
+                    title: "Delete Media ",
+                    message: "Are you sure to delete this media file ?",
+                    buttons: {
+                        cancel: {
+                            label: '<i class="fa fa-times"></i> Cancel'
+                        },
+                        confirm: {
+                            label: '<i class="fa fa-check"></i> Confirm'
+                        }
                     },
-                    confirm: {
-                        label: '<i class="fa fa-check"></i> Confirm'
-                    }
-                },
-                callback: function (result) {
-                        if(result){
-                            $('.pic_'+id+'_delete').remove();
-                            $.ajax({
-                                url: "{{route('products.delete_media')}}",
-                                type: "POST",
-                                data: {
-                                    id: id,
-                                    _token: '{{csrf_token()}}'
-                                },
-                                dataType: 'json',
-                                success: function (data) {
-                                    toastr.success('Media deleted successfully');
-                                }
-                            });
-                        }
-                        else{
+                    callback: function (result) {
+                            if(result){
+                                $('.pic_'+id+'_delete').remove();
+                                $.ajax({
+                                    url: "{{route('products.delete_media')}}",
+                                    type: "POST",
+                                    data: {
+                                        id: id,
+                                        _token: '{{csrf_token()}}'
+                                    },
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        toastr.success('Media deleted successfully');
+                                    }
+                                });
+                            }
+                            else{
 
+                            }
                         }
-                    }
+                    });
                 });
             });
-        });
+
+
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
 @endsection

@@ -12,12 +12,13 @@
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "kartik-v/bootstrap-fileinput": "^5.5",
         "laravel/framework": "^8.0",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^3.0",
-        "yajra/laravel-datatables-oracle": "~9.0",
-        "laravelcollective/html": "^6.3"
+        "laravelcollective/html": "^6.3",
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

@@ -55,7 +55,8 @@ class ProductController extends Controller
     {
         if(!is_null($id)){
             $product=Product::where('id',$id)->first();
-            return response()->json(['success'=>true,'data'=>$product]);
+            $images=ProductImage::select('image_name')->Where('product_id',$id)->pluck('image_name');
+            return response()->json(['success'=>true,'data'=>$product ,'img' => $images]);
         }
     }
 
@@ -78,16 +79,20 @@ class ProductController extends Controller
             $product->price=$request->addproductprice;
             $product->brand_id = $request->add_brand;
             $product->save();
+            for ($x = 0; $x < $request->TotalImages; $x++)
+            {
+                if ($request->add_product_image[$x]){
+                    $file      = $request->add_product_image[$x];
+                    $name = time() . "_" . rand(0000, 9999) . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path() . '/uploads/'.$product->id, $name );
+                    $name = $file->getClientOriginalName();
 
-            // if ($files = $request->file('image')) {
-            //     foreach ($files as $index => $file) {
-            //         $name = time() . "_" . rand(0000, 9999) . '.' . $file->getClientOriginalExtension();
-            //         $images = new ProductImage();
-            //         $images->product_id = $request->productid;
-            //         $images->image_name = $name;
-            //         $images->save();
-            //     }
-            // }
+                    $images = new ProductImage();
+                    $images->product_id = $product->id;
+                    $images->image_name = $name;
+                    $images->save();
+                    }
+            }
             return response()->json(['success'=>true,'message'=>"Products added succesfully."]);
     }
 
@@ -98,7 +103,7 @@ class ProductController extends Controller
             'editproductname' => 'required',
             'editproductprice' => 'required',
             'edit_brand' => 'required',
-        ],
+           ],
         [
             'editproductname.required' => 'Please enter product name',
             'editproductprice' => 'Please enter product price',
@@ -114,15 +119,21 @@ class ProductController extends Controller
             $product->brand_id = $request->edit_brand;
             $product->save();
 
-            // if ($files = $request->file('image')) {
-            //     foreach ($files as $index => $file) {
-            //         $name = time() . "_" . rand(0000, 9999) . '.' . $file->getClientOriginalExtension();
-            //         $images = new ProductImage();
-            //         $images->product_id = $request->productid;
-            //         $images->image_name = $name;
-            //         $images->save();
-            //     }
-            // }
+            for ($x = 0; $x < $request->TotalImages; $x++)
+            {
+                if ($request->edit_product_image[$x]){
+                    $file      = $request->edit_product_image[$x];
+                    $name = time() . "_" . rand(0000, 9999) . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path() . '/uploads/'.$request->productid, $name );
+                    $name = $file->getClientOriginalName();
+
+                    $images = new ProductImage();
+                    $images->product_id = $request->productid;
+                    $images->image_name = $name;
+                    $images->save();
+                    }
+            }
+            dd('yup');
             return response()->json(['success'=>true,'message'=>"Products Updated succesfully."]);
         }
     }
